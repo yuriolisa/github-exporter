@@ -121,6 +121,19 @@ func getPRs(e *Exporter, url string, data *[]Pull) {
 	json.Unmarshal(pullsResponse[0].body, &data)
 }
 
+func getIssues(e *Exporter, url string, data *[]Issue) {
+	i := strings.Index(url, "?")
+	baseURL := url[:i]
+	issuesURL := baseURL + "/issues//comments"
+	issuesResponse, err := asyncHTTPGets([]string(issuesURL), e.APIToken())
+
+	if err != nil {
+		log.Errorf("Unable to obtain pull requests comments from API, Error: %s", err)
+	}
+
+	json.Unmarshal(issuesResponse, &data)
+}
+
 // isArray simply looks for key details that determine if the JSON response is an array or not.
 func isArray(body []byte) bool {
 

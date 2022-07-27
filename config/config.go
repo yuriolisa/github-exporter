@@ -113,7 +113,7 @@ func (c *Config) SetUsers(users []string) {
 
 // SetAPIToken accepts a string oauth2 token for usage in http.request
 func (c *Config) SetAPIToken(token string) {
-	c.apiToken = token
+	c.apiToken = strings.TrimRight(token, "\r\n")
 }
 
 // SetAPITokenFromFile accepts a file containing an oauth2 token for usage in http.request

@@ -2,6 +2,7 @@ package exporter
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/infinityworks/github-exporter/config"
 	"github.com/prometheus/client_golang/prometheus"
@@ -39,6 +40,7 @@ type Datum struct {
 	Size       float64 `json:"size"`
 	Releases   []Release
 	Pulls      []Pull
+	Issues     []Issue
 }
 
 type Release struct {
@@ -51,6 +53,12 @@ type Pull struct {
 	User struct {
 		Login string `json:"login"`
 	} `json:"user"`
+}
+
+type Issue struct {
+	Url string `json:"url"`
+	Body string `json:"body"`
+	Created time.Time `json:"created_at"`
 }
 
 type Asset struct {

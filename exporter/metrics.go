@@ -23,6 +23,11 @@ func AddMetrics() map[string]*prometheus.Desc {
 		"Total number of pull requests for given repository",
 		[]string{"repo"}, nil,
 	)
+	APIMetrics["PullRequestFailedCommentsCount"] = prometheus.NewDesc(
+		prometheus.BuildFQName("github", "repo", "pull_request_failed_comments_count"),
+		"Total number of pull requests comments with :x: for given repository",
+		[]string{"repo"}, nil,
+	)
 	APIMetrics["Watchers"] = prometheus.NewDesc(
 		prometheus.BuildFQName("github", "repo", "watchers"),
 		"Total number of watchers/subscribers for given repository",
@@ -86,6 +91,8 @@ func (e *Exporter) processMetrics(data []*Datum, rates *RateLimits, ch chan<- pr
 
 		// prCount
 		ch <- prometheus.MustNewConstMetric(e.APIMetrics["PullRequestCount"], prometheus.GaugeValue, float64(prCount), x.Name)
+
+		ch <- prometheus.MustNewConstMetric(e.APIMetrics["PullRequestFailedCommentsCount"], prometheus.GaugeValue, )
 	}
 
 	// Set Rate limit stats
